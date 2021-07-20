@@ -66,13 +66,13 @@ static char* duplicateString(const char* string)
   if (string == NULL) { return NULL; }
 
   const size_t length = strlen(string);
-  char*        memory = malloc(length + 1);
+  char*        copy   = malloc(length + 1);
 
-  if (memory == NULL) { return NULL; }
+  if (copy == NULL) { return NULL; }
 
-  memcpy(memory, string, length + 1);
+  memcpy(copy, string, length + 1);
 
-  return memory;
+  return copy;
 }
 
 static void lowercase(char* string)
@@ -170,6 +170,7 @@ bool histogramAdd(Histogram* histogram, const char* word)
   }
   else {
     ++pairFound->count;
+    free(wordToInsert);
   }
 
   return true;
@@ -177,9 +178,19 @@ bool histogramAdd(Histogram* histogram, const char* word)
 
 size_t histogramFetchCountOf(Histogram* histogram, const char* word)
 {
-  struct HistogramImpl* hist      = toImpl(histogram);
-  struct Pair*          pairFound = bsearch(
-    word, hist->data, hist->pairCount, sizeof(struct Pair), &bsearchCmp);
+  struct HistogramImpl* hist = toImpl(histogram);
+
+  char* wordToFind = duplicateString(word);
+
+  if (wordToFind == NULL) { return 0; }
+
+  lowercase(wordToFind);
+  removeNonLowercaseCharacters(wordToFind);
+
+  struct Pair* pairFound = bsearch(
+    wordToFind, hist->data, hist->pairCount, sizeof(struct Pair), &bsearchCmp);
+
+  free(wordToFind);
 
   if (pairFound == NULL) { return 0; }
 
