@@ -42,6 +42,11 @@ int main(int argc, char* argv[])
     else {
       wordBuffer[currentIndex] = (char)currentChar;
       ++currentIndex;
+
+      if (currentIndex >= (sizeof(wordBuffer) - 1)) {
+        fprintf(stderr, "Word is too long!: %s\n", wordBuffer);
+        goto error;
+      }
     }
   }
 
