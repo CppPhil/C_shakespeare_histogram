@@ -6,17 +6,25 @@
 #include "histogram.h"
 #include "is_all_whitespace.h"
 
-int main(void)
+int main(int argc, char* argv[])
 {
+  if (argc != 2) {
+    fprintf(stderr, "argc was %d, but should have been 2.\n", argc);
+    return EXIT_FAILURE;
+  }
+
   Histogram* hist   = histogramCreate();
   FILE*      stream = NULL;
 
   if (hist == NULL) { goto error; }
 
-  const char filePath[] = "shakespeare.txt";
-  stream                = fopen(filePath, "r");
+  const char* filePath = argv[1];
+  stream               = fopen(filePath, "r");
 
-  if (stream == NULL) { goto error; }
+  if (stream == NULL) {
+    fprintf(stderr, "Could not open %s\n", filePath);
+    goto error;
+  }
 
   const char longestWord[] = "pneumonoultramicroscopicsilicovolcanoconiosis";
   char       wordBuffer[sizeof(longestWord)] = {'\0'};
