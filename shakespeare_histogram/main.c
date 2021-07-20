@@ -32,8 +32,8 @@ int main(int argc, char* argv[])
   int        currentChar;
   while ((currentChar = getc(stream)) != EOF) {
     if (isspace(currentChar)) {
-      if (!isAllWhitespace(wordBuffer)) {
-        if (!histogramAdd(hist, wordBuffer)) { goto error; }
+      if (!isAllWhitespace(wordBuffer) && !histogramAdd(hist, wordBuffer)) {
+        goto error;
       }
 
       currentIndex = 0;
