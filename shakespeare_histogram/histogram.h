@@ -6,13 +6,13 @@
 
 typedef struct HistogramOpaque Histogram;
 
-Histogram* histogramCreate();
+Histogram *histogramCreate();
 
-void histogramFree(Histogram* histogram);
+void histogramFree(Histogram *histogram);
 
-bool histogramAdd(Histogram* histogram, const char* word);
+bool histogramAdd(Histogram *histogram, const char *word);
 
-size_t histogramFetchCountOf(Histogram* histogram, const char* word);
+size_t histogramFetchCountOf(Histogram *histogram, const char *word);
 
-void histogramPrint(Histogram* histogram, FILE* stream);
+void histogramPrint(Histogram *histogram, FILE *stream);
 #endif // INCG_HISTOGRAM_H
